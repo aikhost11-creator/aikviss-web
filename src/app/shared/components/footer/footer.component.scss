@@ -1,0 +1,436 @@
+$black:       #000000;
+$black-soft:  #0a0a0a;
+$white:       #ffffff;
+$white-80:    rgba(255, 255, 255, 0.82);
+$white-55:    rgba(255, 255, 255, 0.55);
+$white-20:    rgba(255, 255, 255, 0.14);
+$white-10:    rgba(255, 255, 255, 0.08);
+$accent:      var(--primary, #7b10b9);
+$font:        'Poppins', sans-serif;
+
+* { box-sizing: border-box; }
+a { color: inherit; text-decoration: none; }
+
+// ─── Newsletter CTA bar (above footer) ───────────────────────────────────────
+.footer-cta-bar {
+  background: linear-gradient(135deg, $accent 0%, #5a0d8a 100%);
+  color: $white;
+  font-family: $font;
+  padding: 36px 24px;
+
+  @media (max-width: 768px) {
+    padding: 28px 16px;
+  }
+}
+
+.footer-cta-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    text-align: center;
+  }
+}
+
+.footer-cta-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.footer-cta-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 6px;
+  line-height: 1.25;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+}
+
+.footer-cta-sub {
+  font-size: 13px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.55;
+  max-width: 420px;
+
+  @media (max-width: 768px) {
+    max-width: none;
+  }
+}
+
+.footer-cta-form {
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+  min-width: 340px;
+  background: $white;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+
+  @media (max-width: 768px) {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+.footer-cta-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 14px 20px;
+  font-family: $font;
+  font-size: 14px;
+  color: #111;
+  min-width: 0;
+  background: transparent;
+
+  &::placeholder { color: #999; }
+}
+
+.footer-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: $black;
+  color: $white;
+  padding: 0 22px;
+  font-family: $font;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+
+  &:hover { background: #222; }
+
+  @media (max-width: 480px) {
+    padding: 0 16px;
+    font-size: 12px;
+  }
+}
+
+// ─── Site footer ─────────────────────────────────────────────────────────────
+.site-footer {
+  background: $black;
+  color: $white;
+  font-family: $font;
+  width: 100%;
+}
+
+// ─── Trust strip ─────────────────────────────────────────────────────────────
+.footer-trust-strip {
+  border-bottom: 1px solid $white-20;
+  background: $black-soft;
+}
+
+.footer-trust-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 48px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 20px 24px;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    padding: 16px;
+  }
+}
+
+.footer-trust-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  i {
+    font-size: 22px;
+    color: $accent;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  span {
+    font-size: 11px;
+    color: $white-55;
+    line-height: 1.4;
+  }
+}
+
+// ─── Main grid ───────────────────────────────────────────────────────────────
+.footer-main {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 32px;
+  padding: 48px 48px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-bottom: 1px solid $white-20;
+
+  @media (max-width: 1100px) {
+    padding: 40px 32px 32px;
+    gap: 24px;
+  }
+}
+
+.footer-col-heading {
+  font-size: 14px;
+  font-weight: 700;
+  color: $white;
+  margin: 0 0 18px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.footer-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.footer-col ul li a,
+.footer-col ul li span {
+  font-size: 13px;
+  font-weight: 400;
+  color: $white-80;
+  line-height: 1.45;
+  transition: color 0.15s;
+}
+
+.footer-col ul li a:hover { color: $white; }
+
+.footer-brand-col {
+  padding-right: 16px;
+}
+
+.footer-logo-link {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.footer-logo {
+  height: 50px;
+  max-width: 160px;
+  object-fit: contain;
+  display: block;
+}
+
+.footer-brand-tagline {
+  font-size: 13px;
+  color: $white-55;
+  line-height: 1.65;
+  margin: 0 0 20px;
+  max-width: 260px;
+}
+
+.footer-contact-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  i {
+    font-size: 14px;
+    color: $accent;
+    margin-top: 2px;
+    flex-shrink: 0;
+    width: 16px;
+  }
+}
+
+// ─── Social ───────────────────────────────────────────────────────────────────
+.footer-social-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.footer-social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: $white-10;
+  border: 1px solid $white-20;
+  color: $white;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+
+  &:hover {
+    background: $accent;
+    border-color: $accent;
+    transform: translateY(-2px);
+  }
+
+  i { font-size: 15px; }
+}
+
+// ─── Show / hide ─────────────────────────────────────────────────────────────
+.desktop-col {
+  @media (max-width: 767px) { display: none; }
+}
+
+.mobile-only {
+  display: none;
+  @media (max-width: 767px) { display: block; }
+}
+
+// ─── Mobile accordion ─────────────────────────────────────────────────────────
+.footer-accordion {
+  border-bottom: 1px solid $white-20;
+  padding: 0 0 8px;
+}
+
+.footer-mob-brand {
+  text-align: center;
+  padding: 28px 20px 20px;
+  border-bottom: 1px solid $white-20;
+
+  p {
+    font-size: 12px;
+    color: $white-55;
+    margin: 8px 0 16px;
+    letter-spacing: 0.5px;
+  }
+}
+
+.footer-mob-logo {
+  height: 40px;
+  max-width: 100px;
+  object-fit: contain;
+}
+
+.footer-mob-social {
+  justify-content: center;
+}
+
+.footer-acc-item {
+  border-top: 1px solid $white-20;
+}
+
+.footer-acc-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: $font;
+  font-size: 14px;
+  font-weight: 700;
+  color: $white;
+  text-align: left;
+
+  svg {
+    stroke: $white-80;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    &.rotated { transform: rotate(180deg); }
+  }
+}
+
+.footer-acc-body {
+  list-style: none;
+  margin: 0;
+  padding: 0 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  li a {
+    font-size: 14px;
+    color: $white-80;
+    &:hover { color: $white; }
+  }
+}
+
+// ─── Bottom bar ───────────────────────────────────────────────────────────────
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 20px;
+    text-align: center;
+  }
+}
+
+.footer-copy {
+  font-size: 13px;
+  color: $white-55;
+  margin: 0;
+
+  strong {
+    color: $white;
+    font-weight: 600;
+  }
+}
+
+.footer-bottom-badges {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: $white-55;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+
+    i { font-size: 12px; color: $accent; }
+  }
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    gap: 12px;
+  }
+}

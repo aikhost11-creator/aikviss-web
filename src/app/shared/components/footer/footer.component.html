@@ -1,0 +1,97 @@
+<!-- Newsletter CTA bar (above footer) -->
+<section class="footer-cta-bar">
+  <div class="footer-cta-inner">
+    <div class="footer-cta-copy">
+      <span class="footer-cta-badge">Newsletter</span>
+      <h3 class="footer-cta-title">Get exclusive deals &amp; updates</h3>
+      <p class="footer-cta-sub">Join thousands of shoppers — offers, new drops &amp; COD deals straight to your inbox.</p>
+    </div>
+    <div class="footer-cta-form">
+      <input
+        type="email"
+        class="footer-cta-input"
+        placeholder="Enter your email address"
+        [(ngModel)]="newsletterEmail"
+        (keyup.enter)="subscribeNewsletter()" />
+      <button type="button" class="footer-cta-btn" (click)="subscribeNewsletter()">
+        Subscribe
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+
+  <!-- Trust strip -->
+  <div class="footer-trust-strip">
+    <div class="footer-trust-inner">
+      <div class="footer-trust-item" *ngFor="let b of trustBadges">
+        <i [class]="b.icon"></i>
+        <div>
+          <strong>{{ b.label }}</strong>
+          <span>{{ b.sub }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop main grid -->
+  <div class="footer-main">
+    <div class="footer-col footer-brand-col desktop-col">
+      <a routerLink="/" class="footer-logo-link">
+        <img src="assets/img/default/logo.png" [alt]="siteName" class="footer-logo" />
+      </a>
+      <p class="footer-brand-tagline">
+        Quality products with fast delivery &amp; Cash on Delivery across India.
+      </p>
+    </div>
+
+    <div class="footer-col desktop-col">
+      <p class="footer-col-heading">Quick Links</p>
+      <ul>
+        <li *ngFor="let link of quickLinks">
+          <a [routerLink]="link.url">{{ link.label }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Mobile accordion -->
+  <div class="footer-accordion mobile-only">
+    <div class="footer-mob-brand">
+      <img src="assets/img/default/logo.png" [alt]="siteName" class="footer-mob-logo" />
+      <p>{{ displayDomain }}</p>
+    </div>
+
+    <div class="footer-acc-item" *ngFor="let col of mobileColumns">
+      <button class="footer-acc-trigger" type="button" (click)="toggleSection(col.id)">
+        <span>{{ col.heading }}</span>
+        <svg [class.rotated]="isOpen(col.id)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+      <ul class="footer-acc-body" *ngIf="isOpen(col.id) && col.links.length">
+        <li *ngFor="let link of col.links">
+          <a [routerLink]="link.url">{{ link.label }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="footer-bottom">
+    <p class="footer-copy">
+      &copy; {{ currentYear }} <strong>{{ displayDomain }}</strong>. All rights reserved.
+    </p>
+    <div class="footer-bottom-badges">
+      <span><i class="fa-light fa-lock"></i> Secure Payments</span>
+      <span><i class="fa-light fa-truck"></i> Pan India Delivery</span>
+      <span><i class="fa-light fa-money-bill-wave"></i> COD Available</span>
+    </div>
+  </div>
+
+</footer>

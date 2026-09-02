@@ -1,6 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 
+interface FooterLink {
+  label: string;
+  url: string;
+}
+
+interface PolicyPage {
+  slug: string;
+  label: string;
+  icon: string;
+  desc: string;
+}
+
 @Component({
   selector: 'app-footer',
   standalone: false,
@@ -11,7 +23,7 @@ export class FooterComponent implements OnInit {
 
   currentYear = new Date().getFullYear();
   newsletterEmail = '';
-  openSection: string | null = 'quick';
+  openSection: string | null = 'policies';
 
   constructor(public sharedService: SharedService) {}
 
@@ -41,6 +53,19 @@ export class FooterComponent implements OnInit {
     return 'Store';
   }
 
+  get contactEmail(): string {
+    return this.siteConfig?.email || '';
+  }
+
+  get contactPhone(): string {
+    return this.siteConfig?.mobile || '';
+  }
+
+  get hasSocial(): boolean {
+    const c = this.siteConfig;
+    return !!(c?.instagramURL || c?.facebookURL || c?.twitterURL || c?.linkedInURL || c?.youtubeURL);
+  }
+
   subscribeNewsletter() {
     const email = this.newsletterEmail.trim();
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -59,11 +84,39 @@ export class FooterComponent implements OnInit {
     return this.openSection === id;
   }
 
-  quickLinks = [
+  /** All legal / policy pages — highlighted in footer */
+  policyPages: PolicyPage[] = [
+    {
+      slug: 'shipping-policy',
+      label: 'Shipping Policy',
+      icon: 'fa-light fa-truck-fast',
+      desc: 'Delivery times, charges & tracking'
+    },
+    {
+      slug: 'return-refund',
+      label: 'Return & Refund',
+      icon: 'fa-light fa-arrow-rotate-left',
+      desc: 'Returns, refunds & replacements'
+    },
+    {
+      slug: 'privacy-policy',
+      label: 'Privacy Policy',
+      icon: 'fa-light fa-shield-check',
+      desc: 'How we protect your data'
+    },
+    {
+      slug: 'terms-conditions',
+      label: 'Terms & Conditions',
+      icon: 'fa-light fa-file-contract',
+      desc: 'Rules for using our store'
+    },
+  ];
+
+  shopLinks: FooterLink[] = [
     { label: 'Home', url: '/' },
     { label: 'Shop All', url: '/shop' },
-    { label: 'Cart', url: '/cart' },
-    { label: 'Checkout', url: '/checkout' },
+    { label: 'About Us', url: '/about-us' },
+    { label: 'FAQs', url: '/faqs' },
   ];
 
   trustBadges = [
@@ -73,11 +126,16 @@ export class FooterComponent implements OnInit {
     { icon: 'fa-light fa-rotate-left', label: 'Easy Returns', sub: 'Hassle-free policy' },
   ];
 
-  mobileColumns = [
-    { id: 'quick', heading: 'Quick Links', links: [] as { label: string; url: string }[] },
-  ];
+  mobileColumns: { id: string; heading: string; links: FooterLink[] }[] = [];
 
   ngOnInit() {
-    this.mobileColumns[0].links = this.quickLinks;
+    this.mobileColumns = [
+      { id: 'shop', heading: 'Shop', links: this.shopLinks },
+      {
+        id: 'policies',
+        heading: 'Policies & Legal',
+        links: this.policyPages.map(p => ({ label: p.label, url: '/' + p.slug })),
+      },
+    ];
   }
 }

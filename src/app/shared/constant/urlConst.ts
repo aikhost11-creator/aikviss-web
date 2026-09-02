@@ -35,6 +35,14 @@ export function rebuildUrlConstant() {
     AbandonCheckoutAPI: {
       upsert: environment.APIUrl + 'abandon-checkout/upsert',
     },
+    LegalPagesAPI: {
+      getBySlug: environment.APIUrl + 'legal/get/',
+    },
+    FaqAPI: {
+      preview: environment.APIUrl + 'faq/preview',
+      public: environment.APIUrl + 'faq/public',
+      config: environment.APIUrl + 'faq/config',
+    },
   };
 }
 

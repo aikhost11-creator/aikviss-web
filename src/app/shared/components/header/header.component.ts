@@ -140,7 +140,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     goToCart() {
         this.cartDropOpen = false;
-        this.router.navigate(['/cart']);
+        this.router.navigate(['/shop']);
     }
 
     goToCheckout() {

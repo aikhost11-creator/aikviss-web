@@ -69,7 +69,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.sub = this.cartService.items$.subscribe(items => { this.items = items; });
         if (this.cartService.items.length === 0) {
-            this.router.navigate(['/cart']);
+            this.router.navigate(['/shop']);
             return;
         }
         this.buildDeliveryDates();

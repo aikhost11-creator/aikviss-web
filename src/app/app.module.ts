@@ -15,10 +15,12 @@ import { ConfigService } from './shared/services/config.service';
 import { HomeComponent } from './components/home/home.component';
 import { ShopComponent } from './components/shop/shop.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
-import { CartComponent } from './components/cart/cart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { OrderSuccessComponent } from './components/order-success/order-success.component';
 import { QuickCheckoutComponent } from './shared/components/quick-checkout/quick-checkout.component';
+import { LegalPageComponent } from './components/legal-page/legal-page.component';
+import { AboutUsComponent } from './components/about-us/about-us.component';
+import { FaqsComponent } from './components/faqs/faqs.component';
 
 export function initAppConfig(cfg: ConfigService) {
   return () => cfg.load();
@@ -33,10 +35,12 @@ export function initAppConfig(cfg: ConfigService) {
     HomeComponent,
     ShopComponent,
     ProductDetailComponent,
-    CartComponent,
     CheckoutComponent,
     OrderSuccessComponent,
     QuickCheckoutComponent,
+    LegalPageComponent,
+    AboutUsComponent,
+    FaqsComponent,
   ],
   imports: [
     CommonModule,

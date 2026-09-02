@@ -1,35 +1,37 @@
-<!-- Newsletter CTA bar (above footer) -->
-<section class="footer-cta-bar">
-  <div class="footer-cta-inner">
-    <div class="footer-cta-copy">
-      <span class="footer-cta-badge">Newsletter</span>
-      <h3 class="footer-cta-title">Get exclusive deals &amp; updates</h3>
-      <p class="footer-cta-sub">Join thousands of shoppers — offers, new drops &amp; COD deals straight to your inbox.</p>
+<!-- Newsletter strip -->
+<section class="ft-newsletter">
+  <div class="ft-newsletter-glow"></div>
+  <div class="ft-container ft-newsletter-inner">
+    <div class="ft-newsletter-copy">
+      <span class="ft-eyebrow">Stay in the loop</span>
+      <h3 class="ft-newsletter-title">Exclusive deals &amp; new drops</h3>
+      <p class="ft-newsletter-sub">Subscribe for offers, COD deals &amp; product updates — no spam.</p>
     </div>
-    <div class="footer-cta-form">
+    <form class="ft-newsletter-form" (submit)="$event.preventDefault(); subscribeNewsletter()">
       <input
         type="email"
-        class="footer-cta-input"
-        placeholder="Enter your email address"
+        class="ft-newsletter-input"
+        placeholder="your@email.com"
         [(ngModel)]="newsletterEmail"
-        (keyup.enter)="subscribeNewsletter()" />
-      <button type="button" class="footer-cta-btn" (click)="subscribeNewsletter()">
+        name="newsletterEmail"
+        autocomplete="email" />
+      <button type="submit" class="ft-newsletter-btn">
         Subscribe
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16">
           <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
         </svg>
       </button>
-    </div>
+    </form>
   </div>
 </section>
 
 <footer class="site-footer">
 
   <!-- Trust strip -->
-  <div class="footer-trust-strip">
-    <div class="footer-trust-inner">
-      <div class="footer-trust-item" *ngFor="let b of trustBadges">
-        <i [class]="b.icon"></i>
+  <div class="ft-trust">
+    <div class="ft-container ft-trust-grid">
+      <div class="ft-trust-item" *ngFor="let b of trustBadges">
+        <span class="ft-trust-icon"><i [class]="b.icon"></i></span>
         <div>
           <strong>{{ b.label }}</strong>
           <span>{{ b.sub }}</span>
@@ -38,59 +40,140 @@
     </div>
   </div>
 
-  <!-- Desktop main grid -->
-  <div class="footer-main">
-    <div class="footer-col footer-brand-col desktop-col">
-      <a routerLink="/" class="footer-logo-link">
-        <img src="assets/img/default/logo.png" [alt]="siteName" class="footer-logo" />
-      </a>
-      <p class="footer-brand-tagline">
-        Quality products with fast delivery &amp; Cash on Delivery across India.
-      </p>
+  <!-- Desktop layout -->
+  <div class="ft-main desktop-only">
+    <div class="ft-container ft-main-grid">
+
+      <!-- Brand -->
+      <div class="ft-brand">
+        <a routerLink="/" class="ft-logo-link">
+          <img src="assets/img/default/logo.png" [alt]="siteName" class="ft-logo" />
+        </a>
+        <p class="ft-brand-text">
+          Quality products, fast pan-India delivery &amp; Cash on Delivery — shop with confidence at <strong>{{ displayDomain }}</strong>.
+        </p>
+        <div class="ft-social" *ngIf="hasSocial">
+          <a *ngIf="siteConfig.instagramURL" [href]="siteConfig.instagramURL" target="_blank" rel="noopener" class="ft-social-btn" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a *ngIf="siteConfig.facebookURL" [href]="siteConfig.facebookURL" target="_blank" rel="noopener" class="ft-social-btn" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a *ngIf="siteConfig.youtubeURL" [href]="siteConfig.youtubeURL" target="_blank" rel="noopener" class="ft-social-btn" aria-label="YouTube">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+          <a *ngIf="siteConfig.twitterURL" [href]="siteConfig.twitterURL" target="_blank" rel="noopener" class="ft-social-btn" aria-label="Twitter">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+          <a *ngIf="siteConfig.linkedInURL" [href]="siteConfig.linkedInURL" target="_blank" rel="noopener" class="ft-social-btn" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <div class="ft-col">
+        <h4 class="ft-col-title">Explore</h4>
+        <ul class="ft-link-list">
+          <li *ngFor="let link of shopLinks">
+            <a [routerLink]="link.url">{{ link.label }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="ft-col">
+        <h4 class="ft-col-title">Contact</h4>
+        <ul class="ft-contact-list">
+          <li *ngIf="contactEmail">
+            <i class="fa-light fa-envelope"></i>
+            <a [href]="'mailto:' + contactEmail">{{ contactEmail }}</a>
+          </li>
+          <li *ngIf="contactPhone">
+            <i class="fa-light fa-phone"></i>
+            <a [href]="'tel:' + contactPhone">{{ contactPhone }}</a>
+          </li>
+          <li>
+            <i class="fa-light fa-globe"></i>
+            <span>{{ displayDomain }}</span>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <div class="footer-col desktop-col">
-      <p class="footer-col-heading">Quick Links</p>
-      <ul>
-        <li *ngFor="let link of quickLinks">
-          <a [routerLink]="link.url">{{ link.label }}</a>
-        </li>
-      </ul>
+    <!-- Highlighted policy cards -->
+    <div class="ft-container">
+      <div class="ft-policies-head">
+        <span class="ft-eyebrow ft-eyebrow-light">Legal</span>
+        <h4 class="ft-policies-title">Policies &amp; Information</h4>
+        <p class="ft-policies-sub">Everything you need to know before you shop — clearly listed below.</p>
+      </div>
+      <div class="ft-policies-grid">
+        <a
+          *ngFor="let p of policyPages"
+          [routerLink]="'/' + p.slug"
+          class="ft-policy-card">
+          <span class="ft-policy-icon"><i [class]="p.icon"></i></span>
+          <span class="ft-policy-label">{{ p.label }}</span>
+          <span class="ft-policy-desc">{{ p.desc }}</span>
+          <span class="ft-policy-arrow">
+            Read
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </span>
+        </a>
+      </div>
     </div>
   </div>
 
   <!-- Mobile accordion -->
-  <div class="footer-accordion mobile-only">
-    <div class="footer-mob-brand">
-      <img src="assets/img/default/logo.png" [alt]="siteName" class="footer-mob-logo" />
+  <div class="ft-mobile mobile-only">
+    <div class="ft-mob-brand">
+      <img src="assets/img/default/logo.png" [alt]="siteName" class="ft-mob-logo" />
       <p>{{ displayDomain }}</p>
     </div>
 
-    <div class="footer-acc-item" *ngFor="let col of mobileColumns">
-      <button class="footer-acc-trigger" type="button" (click)="toggleSection(col.id)">
+    <div class="ft-acc-item" *ngFor="let col of mobileColumns">
+      <button class="ft-acc-trigger" type="button" (click)="toggleSection(col.id)">
         <span>{{ col.heading }}</span>
-        <svg [class.rotated]="isOpen(col.id)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-          <polyline points="6 9 12 15 18 9" />
+        <svg [class.open]="isOpen(col.id)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <polyline points="6 9 12 15 18 9"/>
         </svg>
       </button>
-      <ul class="footer-acc-body" *ngIf="isOpen(col.id) && col.links.length">
+      <ul class="ft-acc-body" *ngIf="isOpen(col.id)">
         <li *ngFor="let link of col.links">
           <a [routerLink]="link.url">{{ link.label }}</a>
         </li>
       </ul>
     </div>
+
+    <!-- Mobile policy pills -->
+    <div class="ft-mob-policies">
+      <p class="ft-mob-policies-label">Policies &amp; Legal</p>
+      <div class="ft-mob-policy-list">
+        <a *ngFor="let p of policyPages" [routerLink]="'/' + p.slug" class="ft-mob-policy-pill">
+          <i [class]="p.icon"></i>
+          {{ p.label }}
+        </a>
+      </div>
+    </div>
   </div>
 
   <!-- Bottom bar -->
-  <div class="footer-bottom">
-    <p class="footer-copy">
-      &copy; {{ currentYear }} <strong>{{ displayDomain }}</strong>. All rights reserved.
-    </p>
-    <div class="footer-bottom-badges">
-      <span><i class="fa-light fa-lock"></i> Secure Payments</span>
-      <span><i class="fa-light fa-truck"></i> Pan India Delivery</span>
-      <span><i class="fa-light fa-money-bill-wave"></i> COD Available</span>
+  <div class="ft-bottom">
+    <div class="ft-container ft-bottom-inner">
+      <p class="ft-copy">
+        &copy; {{ currentYear }} <strong>{{ displayDomain }}</strong>. All rights reserved.
+      </p>
+      <div class="ft-bottom-links">
+        <a *ngFor="let p of policyPages" [routerLink]="'/' + p.slug">{{ p.label }}</a>
+      </div>
+      <div class="ft-bottom-badges">
+        <span><i class="fa-light fa-lock"></i> Secure</span>
+        <span><i class="fa-light fa-truck"></i> Pan India</span>
+        <span><i class="fa-light fa-money-bill-wave"></i> COD</span>
+      </div>
     </div>
   </div>
 

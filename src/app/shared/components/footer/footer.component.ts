@@ -4,13 +4,20 @@ import { SharedService } from '../../services/shared.service';
 interface FooterLink {
   label: string;
   url: string;
+  icon: 'home' | 'shop' | 'about' | 'faq';
 }
 
 interface PolicyPage {
   slug: string;
   label: string;
-  icon: string;
+  icon: 'shipping' | 'return' | 'privacy' | 'terms';
   desc: string;
+}
+
+interface TrustBadge {
+  icon: 'shipping' | 'cod' | 'secure' | 'returns';
+  label: string;
+  sub: string;
 }
 
 @Component({
@@ -26,6 +33,12 @@ export class FooterComponent implements OnInit {
   openSection: string | null = 'policies';
 
   constructor(public sharedService: SharedService) {}
+
+  /** Same logo path as header; prefer API whiteLogo on dark footer */
+  get logoUrl(): string {
+    const c = this.siteConfig;
+    return c?.whiteLogo || c?.logo || 'assets/img/default/logo.png';
+  }
 
   get siteName(): string {
     return this.sharedService.siteConfig?.siteName || this.displayDomain;
@@ -84,53 +97,32 @@ export class FooterComponent implements OnInit {
     return this.openSection === id;
   }
 
-  /** All legal / policy pages — highlighted in footer */
   policyPages: PolicyPage[] = [
-    {
-      slug: 'shipping-policy',
-      label: 'Shipping Policy',
-      icon: 'fa-light fa-truck-fast',
-      desc: 'Delivery times, charges & tracking'
-    },
-    {
-      slug: 'return-refund',
-      label: 'Return & Refund',
-      icon: 'fa-light fa-arrow-rotate-left',
-      desc: 'Returns, refunds & replacements'
-    },
-    {
-      slug: 'privacy-policy',
-      label: 'Privacy Policy',
-      icon: 'fa-light fa-shield-check',
-      desc: 'How we protect your data'
-    },
-    {
-      slug: 'terms-conditions',
-      label: 'Terms & Conditions',
-      icon: 'fa-light fa-file-contract',
-      desc: 'Rules for using our store'
-    },
+    { slug: 'shipping-policy', label: 'Shipping Policy', icon: 'shipping', desc: 'Delivery times, charges & tracking' },
+    { slug: 'return-refund', label: 'Return & Refund', icon: 'return', desc: 'Returns, refunds & replacements' },
+    { slug: 'privacy-policy', label: 'Privacy Policy', icon: 'privacy', desc: 'How we protect your data' },
+    { slug: 'terms-conditions', label: 'Terms & Conditions', icon: 'terms', desc: 'Rules for using our store' },
   ];
 
   shopLinks: FooterLink[] = [
-    { label: 'Home', url: '/' },
-    { label: 'Shop All', url: '/shop' },
-    { label: 'About Us', url: '/about-us' },
-    { label: 'FAQs', url: '/faqs' },
+    { label: 'Home', url: '/', icon: 'home' },
+    { label: 'Shop All', url: '/shop', icon: 'shop' },
+    { label: 'About Us', url: '/about-us', icon: 'about' },
+    { label: 'FAQs', url: '/faqs', icon: 'faq' },
   ];
 
-  trustBadges = [
-    { icon: 'fa-light fa-truck-fast', label: 'Free Shipping', sub: 'On every order' },
-    { icon: 'fa-light fa-hand-holding-dollar', label: 'Cash on Delivery', sub: 'Pay at doorstep' },
-    { icon: 'fa-light fa-shield-check', label: 'Secure Checkout', sub: '100% protected' },
-    { icon: 'fa-light fa-rotate-left', label: 'Easy Returns', sub: 'Hassle-free policy' },
+  trustBadges: TrustBadge[] = [
+    { icon: 'shipping', label: 'Free Shipping', sub: 'On every order' },
+    { icon: 'cod', label: 'Cash on Delivery', sub: 'Pay at doorstep' },
+    { icon: 'secure', label: 'Secure Checkout', sub: '100% protected' },
+    { icon: 'returns', label: 'Easy Returns', sub: 'Hassle-free policy' },
   ];
 
-  mobileColumns: { id: string; heading: string; links: FooterLink[] }[] = [];
+  mobileColumns: { id: string; heading: string; links: { label: string; url: string }[] }[] = [];
 
   ngOnInit() {
     this.mobileColumns = [
-      { id: 'shop', heading: 'Shop', links: this.shopLinks },
+      { id: 'shop', heading: 'Shop', links: this.shopLinks.map(l => ({ label: l.label, url: l.url })) },
       {
         id: 'policies',
         heading: 'Policies & Legal',

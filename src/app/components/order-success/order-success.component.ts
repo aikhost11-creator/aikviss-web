@@ -117,10 +117,24 @@ export class OrderSuccessComponent implements OnInit {
 
     // ── Fetch order by id ─────────────────────────────────────────────────────
     private fetchOrder(id: string) {
+        if (id === '0') {
+            this.order = {
+                id: 0,
+                orderNumber: 'EXISTING',
+                status: 'confirmed',
+                total: 0,
+                _items: [],
+                _address: null
+            };
+            this.loading = false;
+            return;
+        }
+
         const headers: any = {};
         if (this.authService.token) {
             headers['Authorization'] = `Bearer ${this.authService.token}`;
         }
+
 
         this.http.get<any>(urlConstant.OrderAPI.getById + id,
             { headers: new HttpHeaders(headers) })

@@ -264,13 +264,18 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         this.http.post<any>(urlConstant.OrderAPI.createOrder, payload, opts)
             .subscribe(
                 res => {
-                    this.cartService.clearCart();
                     this.isProcessing = false;
+                    if (res?.alreadyExists || res?.blocked) {
+                        alert(res?.message || 'Your order is already created');
+                        return;
+                    }
+                    this.cartService.clearCart();
                     this.router.navigate(['/order-success', res.data.id]);
                 },
                 err => {
                     this.isProcessing = false;
                     console.error('Order creation failed:', err);
+                    alert(err?.error?.error || err?.error?.message || 'Order creation failed');
                 }
             );
     }

@@ -373,11 +373,18 @@ export class QuickCheckoutComponent implements OnInit, OnDestroy {
         this.http.post<any>(urlConstant.OrderAPI.createOrder, payload).subscribe({
             next: res => {
                 this.isProcessing = false;
+                if (res?.alreadyExists || res?.blocked) {
+                    this.sharedService.showAlert(1, res?.message || 'Your order is already created');
+                    this.close();
+                    const orderId = res?.data?.id;
+                    if (orderId && orderId !== 0) {
+                        this.router.navigate(['/order-success', orderId], { queryParams: { duplicate: '1' } });
+                    }
+                    return;
+                }
                 const orderId = res?.data?.id || res?.id;
                 this.close();
-                if (res?.alreadyExists) {
-                    this.router.navigate(['/order-success', orderId], { queryParams: { duplicate: '1' } });
-                } else if (orderId) {
+                if (orderId) {
                     this.router.navigate(['/order-success', orderId]);
                 } else {
                     this.router.navigate(['/order-success']);
@@ -385,7 +392,7 @@ export class QuickCheckoutComponent implements OnInit, OnDestroy {
             },
             error: (err) => {
                 this.isProcessing = false;
-                this.sharedService.showAlert(2, err?.error?.error || 'Order creation failed. Please try again.');
+                this.sharedService.showAlert(2, err?.error?.error || err?.error?.message || 'Order creation failed. Please try again.');
             }
         });
     }

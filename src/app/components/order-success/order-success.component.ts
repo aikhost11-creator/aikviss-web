@@ -63,9 +63,24 @@ export class OrderSuccessComponent implements OnInit {
                         };
                         this.http.post<any>(urlConstant.OrderAPI.createOrder, payload).subscribe({
                             next: res => {
-                                // Clean up pending data
                                 sessionStorage.removeItem('qc_pending');
-                                // Redirect to clean URL with order id
+                                if (res?.alreadyExists || res?.blocked) {
+                                    this.isDuplicate = true;
+                                    this.loading = false;
+                                    this.order = res?.data || {
+                                        orderNumber: 'EXISTING',
+                                        status: 'confirmed',
+                                        paymentMethod: 'phonepe',
+                                        total: pending?.total || 0,
+                                        _items: pending?.items || [],
+                                        _address: pending?.deliveryAddress
+                                    };
+                                    if (this.order && !this.order._items) {
+                                        this.order._items = this.tryParse(this.order.items, pending?.items || []);
+                                        this.order._address = this.tryParse(this.order.deliveryAddress, pending?.deliveryAddress || null);
+                                    }
+                                    return;
+                                }
                                 this.router.navigate(['/order-success', res.data.id], { replaceUrl: true });
                             },
                             error: () => {
@@ -93,6 +108,12 @@ export class OrderSuccessComponent implements OnInit {
                     this.http.post<any>(urlConstant.OrderAPI.createOrder, payload).subscribe({
                         next: res => {
                             sessionStorage.removeItem('qc_pending');
+                            if (res?.alreadyExists || res?.blocked) {
+                                this.isDuplicate = true;
+                                this.loading = false;
+                                this.order = res?.data || { orderNumber: 'EXISTING', status: 'confirmed', paymentMethod: 'phonepe', total: pending?.total || 0, _items: pending?.items || [], _address: pending?.deliveryAddress };
+                                return;
+                            }
                             this.router.navigate(['/order-success', res.data.id], { replaceUrl: true });
                         },
                         error: () => { this.loading = false; }

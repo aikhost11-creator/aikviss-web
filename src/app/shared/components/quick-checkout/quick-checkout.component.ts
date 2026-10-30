@@ -228,14 +228,33 @@ export class QuickCheckoutComponent implements OnInit, OnDestroy {
     // Step 1 footer button — validate form then go to payment step
     proceedToPayment() {
         if (!this.validate()) {
-            // Scroll to first error field
-            setTimeout(() => {
-                const el = document.querySelector('.qc-field.err');
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 50);
+            this.scrollToError();
             return;
         }
 
+        this.http.get<any>(urlConstant.AllowedPincodeAPI.check, {
+            params: { pincode: this.postcode.trim() }
+        }).subscribe({
+            next: (res) => {
+                if (res?.is_validate_pincode && res.allowed === false) {
+                    this.errors['postcode'] = res.message || 'Delivery is not available for this pincode';
+                    this.scrollToError();
+                    return;
+                }
+                this.continueAfterPincode();
+            },
+            error: () => this.continueAfterPincode()
+        });
+    }
+
+    private scrollToError() {
+        setTimeout(() => {
+            const el = document.querySelector('.qc-field.err');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 50);
+    }
+
+    private continueAfterPincode() {
         // Auto-select first available method
         if (this.razorpayActive) this.selectedMethod = 'razorpay';
         else if (this.phonePeActive) this.selectedMethod = 'phonepe';

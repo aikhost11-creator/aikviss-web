@@ -203,8 +203,27 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         });
     }
 
+    private ensurePincodeAllowed(): Promise<boolean> {
+        const pincode = this.selectedAddress?.postcode || '';
+        return new Promise((resolve) => {
+            this.http.get<any>(urlConstant.AllowedPincodeAPI.check, { params: { pincode } }).subscribe({
+                next: (res) => {
+                    if (res?.is_validate_pincode && res.allowed === false) {
+                        this.sharedService.showAlert(2, res.message || 'Delivery is not available for this pincode');
+                        resolve(false);
+                        return;
+                    }
+                    resolve(true);
+                },
+                error: () => resolve(true)
+            });
+        });
+    }
+
     async payNow(): Promise<void> {
         if (this.isProcessing) return;
+        const pinOk = await this.ensurePincodeAllowed();
+        if (!pinOk) return;
         this.isProcessing = true;
         try {
             await this.loadRazorpayScript();

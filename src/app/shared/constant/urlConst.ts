@@ -27,6 +27,9 @@ export function rebuildUrlConstant() {
       phonePeInitiate: environment.APIUrl + 'payment-settings/phonepe/initiate',
       phonePeVerify:   environment.APIUrl + 'payment-settings/phonepe/verify/',
     },
+    AllowedPincodeAPI: {
+      check: environment.APIUrl + 'allowed-pincodes/check',
+    },
     OrderAPI: {
       createOrder: environment.APIUrl + 'orders/createOrder',
       getByCustomer: environment.APIUrl + 'orders/getByCustomer/',
